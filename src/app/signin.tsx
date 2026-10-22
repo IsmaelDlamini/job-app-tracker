@@ -1,11 +1,10 @@
 import { Text } from "@/components/ui/text";
+import {AuthScreen} from "./auth";
 
 
 export default function signin() {
 
     return (
-        <Text>
-            This is a signin
-        </Text>
+        <AuthScreen mode={'signIn'} />
     )
 }
