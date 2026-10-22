@@ -4,7 +4,7 @@ import {useState} from 'react';
 import { KeyboardAvoidingView , View, ScrollView} from 'react-native';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Text } from '@/components/ui/text';
-import { Button } from 'expo-router/react-navigation';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 // import { ScrollView } from 'react-native-gesture-handler';
 // import { ScrollView} from 'react-native-reanimated/lib/typescript/Animated';
@@ -18,11 +18,29 @@ export interface AuthMode {
 export const AuthScreen: React.FC<AuthMode> = ({ mode }: AuthMode) => {
 
     const router = useRouter();
-    const [ signIn, signUp ] = useAuth();
+    const { signIn, signUp } = useAuth();
 
     const [isSignUp, setIsSignUp] = useState(mode === 'signUp');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [currentError, setCurrentError] = useState<string | undefined>(undefined);
+
+
+    const handleSubmit = async () => {
+        try {
+            if (isSignUp) {
+                await signUp(email, password);
+            } else {
+                await signIn(email, password);
+            }
+        } catch (error: any) {
+           setCurrentError(error.message || 'An error occurred. Please try again.');
+        }
+    }
+
+    const navigateToDashboard = () => {
+        router.push('/dashboard');
+    }
 
     return <KeyboardAvoidingView>
         <ScrollView>
@@ -64,10 +82,10 @@ export const AuthScreen: React.FC<AuthMode> = ({ mode }: AuthMode) => {
                     </View>
                 </CardContent>
 
-                <Button>
-                  
-                        {isSignUp ? 'Sign Up' : 'Sign In'}
-                
+                <Button onPress={async () => {
+                    await handleSubmit();
+                }}>
+                    {isSignUp ? 'Sign Up' : 'Sign In'}
                 </Button>
 
             </Card>
