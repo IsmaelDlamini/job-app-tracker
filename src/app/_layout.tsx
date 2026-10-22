@@ -4,7 +4,8 @@ import { useColorScheme, View } from 'react-native';
 
 import { PortalHost } from '@rn-primitives/portal';
 import '../../global.css';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import { AuthProvider } from '@/services/auth-context';
 
 function RootLayoutNav() {
 
@@ -17,12 +18,22 @@ function RootLayoutNav() {
   )
 }
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+// export default function TabLayout() {
+//   const colorScheme = useColorScheme();
+//   return (
+//     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+//       <RootLayoutNav />
+//       <PortalHost />
+//     </ThemeProvider>
+//   );
+// }
+
+
+export default function RootLayout() {
+  return <SafeAreaProvider>
+    <AuthProvider>
       <RootLayoutNav />
       <PortalHost />
-    </ThemeProvider>
-  );
+    </AuthProvider>
+  </SafeAreaProvider>
 }

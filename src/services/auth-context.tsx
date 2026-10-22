@@ -1,7 +1,8 @@
 // import {User} from "../models/user.model";
 import {createContext, ReactNode, useState, useEffect, useContext} from "react";
-import {firebaseAuth} from "../firebase.web";
+import {firebaseAuth} from "@/firebase";
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, User, signOut } from "firebase/auth";
+
 
 
 interface AuthContextType {
